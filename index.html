@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <title>StudyNova — AI Study Space</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="StudyNova home">
+        <span class="brand-icon">✦</span><span>StudyNova</span>
+      </a>
+      <p class="sidebar-label">WORKSPACE</p>
+      <nav class="nav">
+        <button class="nav-link active" data-view="dashboard"><span>⌂</span> Dashboard</button>
+        <button class="nav-link" data-view="notes"><span>▤</span> My notes</button>
+        <button class="nav-link" data-view="quiz"><span>✎</span> Question maker</button>
+        <button class="nav-link" data-view="voice"><span>♫</span> AI voice</button>
+      </nav>                                                                            
+      <div class="sidebar-tip">
+        <div class="tip-icon">✧</div>
+        <strong>Study smarter</strong>
+        <p>Turn your notes into a learning plan that works for you.</p>
+      </div>
+      <div class="sidebar-footer">STUDYNOVA · LEARN AT YOUR PACE</div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">YOUR PERSONAL STUDY SPACE</p>
+          <h1 id="pageHeading">Learn smarter. Go further.</h1>
+        </div>
+        <div class="status-pill"><span class="status-dot"></span> AI study tools</div>
+      </header>
+
+      <section class="view" id="dashboardView">
+        <div class="hero">
+          <div class="hero-copy">
+            <span class="tag">✦ YOUR AI STUDY PARTNER</span>
+            <h2>Make your notes<br><span>work harder.</span></h2>
+            <p>Paste your notes or enter a topic. StudyNova can organize your material, create practice questions, and read your notes aloud — right in your browser.</p>
+          </div>
+          <div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="planet">✦</div><div class="tiny-star star-one">✧</div><div class="tiny-star star-two">✦</div></div>
+        </div>
+
+        <section class="panel input-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">START LEARNING</p><h2>What are you studying today?</h2></div>
+            <span class="panel-icon">✎</span>
+          </div>
+          <label class="sr-only" for="sourceText">Your notes or study topic</label>
+          <textarea id="sourceText" rows="6" placeholder="Paste your class notes here, or enter a topic such as “The Solar System”..."></textarea>
+          <p class="helper-text research-info">AI research uses the local Python server at 127.0.0.1:8000. Start it and set your OpenAI API key in that server's terminal; never put the key in this page. You can keep this page open in a local preview.</p>
+          <div class="photo-picker">
+            <label class="button button-secondary" for="photoInput">▧ Add photos</label>
+            <input class="sr-only" id="photoInput" type="file" accept="image/*" multiple>
+            <p class="helper-text">Attach up to 5 photos. OCR reads text from them; it does not search the web. Photos stay in this browser.</p>
+          </div>
+          <div id="photoPreview" class="photo-gallery" aria-live="polite"></div>
+          <div class="input-options">
+            <div class="field">
+              <label for="studyLevel">Study level</label>
+              <select id="studyLevel">
+                <option value="school">School student</option>
+                <option value="middle school">Middle school</option>
+                <option value="high school">High school</option>
+                <option value="university">University</option>
+                <option value="beginner">Beginner / simple explanation</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="studyLanguage">Language</label>
+              <select id="studyLanguage">
+                <option value="eng">English</option>
+                <option value="sqi">Albanian</option>
+                <option value="deu">German</option>
+                <option value="fra">French</option>
+                <option value="spa">Spanish</option>
+              </select>
+            </div>
+          </div>
+          <div class="button-row">
+            <button class="button button-primary" id="researchBtn">✦ Organize notes locally</button>
+            <button class="button button-primary" id="openaiResearchBtn">✦ Research with AI</button>
+            <button class="button button-secondary" id="makeQuestionsBtn">☷ Generate questions</button>
+            <button class="button button-quiet" id="makeSimpleNotesBtn">Create basic notes</button>
+            <button class="button button-secondary" id="saveTextAsIsBtn">Save text as-is</button>
+            <button class="button button-secondary" id="readPhotoTextBtn">▧ Read photos & create notes</button>
+          </div>
+          <p class="helper-text" id="mainStatus" role="status">Create and save notes, generate practice questions, and listen to your notes locally in this browser. Photo OCR downloads its engine and language data; the photos are processed here, not uploaded.</p>
+        </section>
+
+        <div class="feature-grid">
+          <button class="feature-card" data-go="notes"><span class="feature-icon purple">▤</span><span class="feature-title">Smart notes</span><span class="feature-desc">Organize lessons and add explanations.</span><span class="feature-arrow">↗</span></button>
+          <button class="feature-card" data-go="quiz"><span class="feature-icon blue">☷</span><span class="feature-title">Practice questions</span><span class="feature-desc">Test yourself with a quiz and score.</span><span class="feature-arrow">↗</span></button>
+          <button class="feature-card" data-go="voice"><span class="feature-icon pink">♫</span><span class="feature-title">Listen & learn</span><span class="feature-desc">Hear your notes using available voices.</span><span class="feature-arrow">↗</span></button>
+        </div>
+
+        <section class="panel results-panel" id="notesResultPanel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">YOUR LEARNING MATERIAL</p><h2>Generated notes</h2></div>
+            <div class="small-actions">
+              <button class="button button-small button-secondary" id="saveNotesBtn">Save to My notes</button>
+              <button class="button button-small button-secondary" id="copyNotesBtn">Copy</button>
+              <button class="button button-small button-secondary" id="readNotesBtn">♫ Listen</button>
+            </div>
+          </div>
+          <div id="notesOutput" class="content-output empty-state">Your notes will appear here after you create or research them.</div>
+          <div id="notesPhotos" class="photo-gallery"></div>
+          <div id="sourcesOutput" class="sources"></div>
+        </section>
+      </section>
+
+      <section class="view hidden" id="notesView">
+        <section class="panel">
+          <p class="eyebrow">YOUR LIBRARY</p><h2>My notes</h2>
+          <p class="muted">Your saved notes stay in this browser on this device.</p>
+          <div id="savedNotes" class="saved-notes"><p class="empty-state">No saved notes yet. Create some notes on the dashboard and save them here.</p></div>
+        </section>
+      </section>
+
+      <section class="view hidden" id="quizView">
+        <section class="panel">
+          <div class="panel-heading"><div><p class="eyebrow">ACTIVE RECALL</p><h2>Question maker</h2></div><span class="panel-icon">☷</span></div>
+          <p class="muted">Generate a quiz from your notes or the notes you just researched.</p>
+          <div class="button-row">
+            <button class="button button-primary" id="quizFromCurrentBtn">Generate quiz from my notes</button>
+            <button class="button button-secondary" id="showAnswersBtn">Show all answers</button>
+          </div>
+          <p class="helper-text" id="quizStatus" role="status">A quiz will appear here. Choose your answers and check your score.</p>
+          <div id="quizOutput" class="quiz-output"><div class="empty-state">No quiz yet. Add notes on the dashboard, then generate questions.</div></div>
+        </section>
+      </section>
+
+      <section class="view hidden" id="voiceView">
+        <section class="panel voice-panel">
+          <p class="eyebrow">LISTEN & LEARN</p><h2>AI voice reader</h2>
+          <p class="muted">Paste text or use your current notes. This uses speech voices installed in your browser; it is not an OpenAI-generated voice.</p>
+          <label for="voiceText">Text to read</label>
+          <textarea id="voiceText" rows="8" placeholder="Paste your notes here, or click “Use my notes”."></textarea>
+          <div class="input-options">
+            <div class="field"><label for="voiceSelect">Voice</label><select id="voiceSelect"><option value="">Default browser voice</option></select></div>
+            <div class="field"><label for="voiceSpeed">Speed</label><select id="voiceSpeed"><option value="0.8">Slow</option><option value="1" selected>Normal</option><option value="1.2">Fast</option></select></div>
+          </div>
+          <div class="button-row">
+            <button class="button button-primary" id="playVoiceBtn">▶ Play</button>
+            <button class="button button-secondary" id="pauseVoiceBtn">Ⅱ Pause / resume</button>
+            <button class="button button-secondary" id="stopVoiceBtn">■ Stop</button>
+            <button class="button button-quiet" id="useNotesVoiceBtn">Use my notes</button>
+          </div>
+          <p class="helper-text" id="voiceStatus" role="status"></p>
+        </section>
+      </section>
+
+      <footer class="footer">StudyNova © 2026 <span>Built for curious minds ✦</span></footer>
+    </main>
+  </div>
+</body>
+</html>
